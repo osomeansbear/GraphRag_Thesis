@@ -1,0 +1,254 @@
+[
+  {
+    "id": "Q01",
+    "original_id": "Q10",
+    "type": "CROSSREF",
+    "query": "Under what conditions is a student subject to expulsion from the university?",
+    "source_clause": "Article 11, Clause 2; Article 2, Clause 10",
+    "source_clause_id": [[11, 2], [2, 10]],
+    "ground_truth": "A student is subject to expulsion in the following cases: academic warning has been issued more than 2 times; the study period has exceeded the maximum duration stipulated in Article 2, Clause 10 (1.5 times the standard course duration, extendable up to 2 times with Rector approval in special cases); the student has continuously suspended studies for more than 2 main semesters or has suspended beyond the permitted period; the student has voluntarily left their studies for one or more main semesters or has not completed course registration procedures; violation of academic regulations, disciplinary rules, or other university regulations to the extent of expulsion; or other special cases as decided by the Rector."
+  },
+  {
+    "id": "Q02",
+    "original_id": "Q13",
+    "type": "CROSSREF",
+    "query": "What are the immediate registration and examination consequences for a student who fails to pay tuition fees on time, and what further academic management consequence does the same non-payment trigger under the academic warning rules?",
+    "source_clause": "Article 8, Clause 3; Article 11, Clause 1",
+    "source_clause_id": [[8, 3], [11, 1]],
+    "ground_truth": "Under Article 8, Clause 3b, a student who fails to pay main semester tuition before the mid-semester deadline will not be permitted to sit examinations in that semester and will not be allowed to register for modules in the following semester. In cases of sudden hardship, the student may submit a written request for a payment extension to the Finance and Planning Office to be considered for permission to enter the examination hall and register. Separately, under Article 11, Clause 1c, a student who has not paid tuition, health insurance premiums, and other fees as required by the university is placed on academic warning at the end of that semester. These two provisions operate in parallel: the Article 8 consequences are immediate and administrative — blocking examination entry and next-semester registration — while the Article 11 consequence is a formal academic management action that accumulates toward expulsion if warnings are issued more than twice. Together, failure to pay tuition simultaneously triggers examination prohibition, blocks the following semester registration, and counts toward the academic warning threshold."
+  },
+  {
+    "id": "Q03",
+    "original_id": "Q14",
+    "type": "CROSSREF",
+    "query": "What are the conditions for a student to register for a concurrent second program, and how is the minimum year-level requirement for eligibility determined from total accumulated credits under the standard study plan?",
+    "source_clause": "Article 19, Clause 2; Article 10, Clause 5",
+    "source_clause_id": [[19, 2], [10, 5]],
+    "ground_truth": "A student may register for a second program only after being classified at the second-year level in the first program. Under Article 10, Clause 5, year level is determined by comparing N (total credits accumulated since the start of the course) with M (average credits per year under the standard study plan): a student reaches second-year level when M is less than or equal to N and N is less than 2M. This credit-based threshold is the earliest eligibility gate for dual enrollment. At the time of registration under Article 19, Clause 2, the student must additionally satisfy one of two academic performance conditions: either a CGPA classified as Good or above and meeting the quality threshold of the second program in the year of admission, or a CGPA classified as Average and meeting the admission requirements of the second program in the year of admission. The field of study of the second program must differ from that of the first program, and there must be no difference in the form and level of training between the two programs."
+  },
+  {
+    "id": "Q04",
+    "original_id": "Q17",
+    "type": "CROSSREF",
+    "query": "What are all the conditions a student must meet to be recognized as having graduated, and what is the minimum cumulative GPA on the 100-point scale that satisfies the GPA graduation requirement?",
+    "source_clause": "Article 15, Clause 1; Article 10, Clause 4",
+    "source_clause_id": [[15, 1], [10, 4]],
+    "ground_truth": "A student is recognized as having graduated when all five of the following conditions are satisfied: the student has accumulated all required modules, credits, and other compulsory components as stipulated by the training program and has met the program's learning outcomes; the student has a cumulative GPA of at least Average for the entire course — under the academic performance classification scale in Article 10, Clause 4, Average corresponds to a CGPA of 50 to below 60 on the 100-point scale, making 50 points the minimum threshold for graduation eligibility; the student has met the foreign language exit standard and holds the required NPD and PE certificates, and has completed conditional modules as required by VNU-HCM and IU, including political education classes and civic activities; at the time of graduation review, the student is not subject to criminal prosecution and is not under disciplinary suspension of studies; and the student has fulfilled all financial and other responsibilities and obligations in accordance with officially promulgated university regulations and charters."
+  },
+  {
+    "id": "Q05",
+    "original_id": "Q23",
+    "type": "CROSSREF",
+    "query": "What are the conditions for a module from another institution to be eligible for credit transfer?",
+    "source_clause": "Article 14, Clause 3; Article 9, Clause 10",
+    "source_clause_id": [[14, 3], [9, 10]],
+    "ground_truth": "For a module from a previously completed undergraduate program to be recognized for credit transfer, it must satisfy two conditions: the module must belong to a current regular undergraduate training program, with results classified as a pass according to Article 9 of this Regulation — meaning the module must have received a grade of C or above (50 points or above on the 100-point scale) as defined in the grading scale of Article 9, Clause 10; and the module must have equivalent content and a credit value equal to or greater than the corresponding module in the current regular undergraduate training program. Modules not eligible for credit transfer include graduation internships, graduation theses, and any modules that do not meet these two conditions."
+  },
+  {
+    "id": "Q06",
+    "original_id": "Q29",
+    "type": "CROSSREF",
+    "query": "How is a leave of absence taken for personal reasons counted toward a student's maximum permitted study period?",
+    "source_clause": "Article 16, Clause 2; Article 2, Clause 10",
+    "source_clause_id": [[16, 2], [2, 10]],
+    "ground_truth": "A leave of absence taken for personal reasons — as provided under Article 16, Clause 1, point d — must be counted toward the student's official study period as stipulated in Article 2, Clause 10. This means that personal leave does not pause the clock on the maximum permitted study duration: the cap of 1.5 times the standard full-course study period (extendable up to 2 times with Rector approval in special cases) continues to run during a personal leave of absence. This counting rule applies specifically to personal reasons leave; leaves taken for military service, international competitions, or illness and maternity are not stated to carry this same accounting. Together, this provision and the Article 2, Clause 10 cap mean that a student who takes personal leave is consuming part of their total permitted study time, not preserving it."
+  },
+  {
+    "id": "Q07",
+    "original_id": "Q30",
+    "type": "CROSSREF",
+    "query": "What is the maximum study period permitted for a student who transfers to a different field of study or program within IU, and where is this limit defined?",
+    "source_clause": "Article 17, Clause 4; Article 2, Clause 10",
+    "source_clause_id": [[17, 4], [2, 10]],
+    "ground_truth": "The maximum permitted study period for a student who transfers to a different field or program within IU is the maximum course completion period stipulated in Article 2, Clause 10 — that is, 1.5 times the standard full-course study period, extendable up to 2 times with Rector approval in special cases. The maximum is not reset or extended by the act of transfer itself; all time spent in the original program before the transfer counts toward this cap. This cross-reference to Article 2, Clause 10 means that a student who transfers late in their studies has proportionally less remaining time to complete the new program, and the same Rector-approval pathway for extensions applies equally."
+  },
+  {
+    "id": "Q08",
+    "original_id": null,
+    "type": "CROSSREF",
+    "query": "What CGPA and credit-failure conditions at the end of a semester place a student on academic warning, and how do these CGPA thresholds relate to the academic performance classification bands defined in the regulation?",
+    "source_clause": "Article 11, Clause 1; Article 10, Clause 4",
+    "source_clause_id": [[11, 1], [10, 4]],
+    "ground_truth": "At the end of each semester, a student is placed on academic warning when any one of the following three conditions applies: the total number of failing credits in that semester exceeds 50% of the registered workload for that semester, or the total accumulated failing credits from the start of the course exceeds 24 credits; the student's cumulative GPA falls below 35 on the 100-point scale, or the CGPA for 2 consecutive semesters falls below 40 on the 100-point scale; or the student has not paid tuition, health insurance premiums, and other fees as required by the university. Under the academic performance classification scale in Article 10, Clause 4, the warning threshold of 35 sits below the Weak band (40 to below 50), which is itself below Average (50 to below 60). This means a student can be classified as Weak without triggering academic warning, but a further drop below 35 triggers it. A student who has been issued academic warning more than two times is subject to expulsion."
+  },
+  {
+    "id": "Q09",
+    "original_id": null,
+    "type": "CROSSREF",
+    "query": "A student who has been provisionally readmitted after expulsion must register for study in the provisional semester as a condition of readmission. If the student still has outstanding tuition debt from before their expulsion, how does the tuition payment requirement interact with their ability to satisfy this registration condition?",
+    "source_clause": "Article 11, Clause 3; Article 8, Clause 3",
+    "source_clause_id": [[11, 3], [8, 3]],
+    "ground_truth": "Under Article 11, Clause 3, provisional readmission for students expelled due to more than two academic warnings requires that the student has registered for study in the semester under consideration — this is one of the three conditions that must be satisfied for provisional readmission to take effect. Under Article 8, Clause 3b, students who fail to pay tuition on time are not permitted to sit examinations and are not allowed to register for modules in the following semester; Article 8, Clause 3c provides a pathway for students with sudden hardship to request a payment extension from the Finance and Planning Office. These two provisions interact directly: a provisionally readmitted student who carries outstanding tuition debt will be blocked from completing course registration by the payment requirement of Article 8, Clause 3b. Since successful registration is a condition for provisional readmission under Article 11, Clause 3, outstanding tuition debt effectively prevents provisional readmission from taking effect until the debt is resolved or a payment extension is formally granted."
+  },
+  {
+    "id": "Q10",
+    "original_id": null,
+    "type": "CROSSREF",
+    "query": "Under what conditions may a student be granted a module exemption, and how does the cap on total exemptible credits affect the permitted study duration for a student who enters IU having already completed a prior undergraduate degree?",
+    "source_clause": "Article 9, Clause 12; Article 2, Clause 10",
+    "source_clause_id": [[9, 12], [2, 10]],
+    "ground_truth": "A module may be granted an exemption when it is deemed equivalent to another module that the student has already passed and accumulated during their studies. The total credits considered for exemption must not exceed 50% of the total credits of the entire training program. Cases eligible for exemption include: students who passed an equivalent or replacement module at the same level and type of training at IU; students who completed relevant certificates, political education modules, or NPD modules; and students who passed an equivalent module at another institution where IU has verified equivalence by comparing the two institutions' training programs — the equivalent module must have duration equal to or greater than the IU module's duration and content at least 70% similar. Under Article 2, Clause 10, for students who have already graduated from an undergraduate program and have been granted credit exemptions at IU, the maximum permitted study duration is not the standard 1.5 times the full-course period but is instead proportionally reduced based on the standard study period reduced by the exempted workload. This means the more credits a student is exempted from, the shorter their maximum permitted study duration at IU becomes, creating a direct interaction between the Article 9 exemption cap and the Article 2 duration limit."
+  },
+  {
+    "id": "Q11",
+    "original_id": null,
+    "type": "CROSSREF",
+    "query": "If a student who holds a Grade I fails to sit the clearing examination within the permitted period and the Grade I is automatically converted to a grade of zero, under what conditions does this converted grade contribute to triggering an academic warning at the end of that semester?",
+    "source_clause": "Article 9, Clause 11; Article 11, Clause 1",
+    "source_clause_id": [[9, 11], [11, 1]],
+    "ground_truth": "Under Article 9, Clause 11, if a student does not sit the Grade I clearing examination within one year after the examination schedule for that semester is announced, the Grade I is automatically converted to a grade of zero. This zero is a failing grade for the module. Under Article 11, Clause 1a, academic warning is triggered at the end of a semester when the total number of failing credits in that semester exceeds 50% of the registered workload for that semester, or when the total accumulated failing credits from the start of the course exceeds 24 credits. The automatic Grade I conversion to zero therefore contributes to both thresholds: it adds to the failing credit count and to the total accumulated failing credits. If the converted module pushes the student's failing credits past either threshold — over 50% of the semester workload, or a running total exceeding 24 credits — an academic warning is issued. Additionally, if a student who holds a Grade I re-registers for that module before the one-year deadline, the prior Grade I is automatically converted to zero at that point, with the same warning implications from that semester's perspective."
+  },
+  {
+    "id": "Q12",
+    "original_id": null,
+    "type": "CROSSREF",
+    "query": "Which module grades and which types of modules are excluded from all GPA calculations at IU?",
+    "source_clause": "Article 10, Clause 3; Article 9, Clause 10",
+    "source_clause_id": [[10, 3], [9, 10]],
+    "ground_truth": "Two categories are excluded from all GPA calculations. First, letter grades that are not part of the official grading scale defined in Article 9, Clause 10 — such as Grade I (Incomplete), exemption notations, or any non-standard grade code — are not counted in either SGPA or CGPA. Second, modules that are not within the student's training program requirements are not counted in any student performance assessment criteria, meaning optional or supplementary modules taken outside the prescribed curriculum do not affect GPA or any academic management threshold. Together these exclusions mean that a student's GPA is computed only from officially graded, program-required modules using the standard letter grade scale from Article 9, Clause 10."
+  },
+  {
+    "id": "Q13",
+    "original_id": "Q03",
+    "type": "MULTIHOP",
+    "query": "What is the maximum duration a student is allowed to complete their undergraduate program, and how is it adjusted for students who have received credit exemptions from a previously completed degree?",
+    "source_clause": "Article 2, Clause 10; Article 14, Clause 3",
+    "source_clause_id": [[2, 10], [14, 3]],
+    "ground_truth": "The maximum duration for a student to complete the undergraduate program is 1.5 times the standard full-course study period, and in special cases the Rector may approve an extension, but it must not exceed 2 times the standard full-course study period. For students who have already graduated from a previous undergraduate program and have been granted credit exemptions, the maximum duration is reduced proportionally to the exempted workload, based on the standard study period. Credit exemptions from a previously completed degree are only granted for modules that belong to a current regular undergraduate training program with results classified as a pass under the grading rules, and whose content is equivalent to and whose credit value is equal to or greater than the corresponding module in the current program. Together these provisions mean that the more credits a returning student is granted in transfer, the shorter their permitted maximum duration becomes, since the cap scales down with the reduced remaining workload."
+  },
+  {
+    "id": "Q14",
+    "original_id": "Q06",
+    "type": "MULTIHOP",
+    "query": "What are the conditions under which a student may apply for a leave of absence, what are the procedural deadlines for processing the request, and how does this interact with the maximum total suspension period a student is permitted?",
+    "source_clause": "Article 16, Clause 1; Article 16, Clause 4; Article 16, Clause 7",
+    "source_clause_id": [[16, 1], [16, 4], [16, 7]],
+    "ground_truth": "A student may apply for a leave of absence and preservation of academic results in four cases: being called up for military service, being selected by a competent authority to represent the nation in international competitions or events, experiencing illness, maternity, or accident requiring long-term treatment with certification from a Ministry of Health-stipulated medical institution, or having other personal reasons - provided the student has completed at least one semester and is not subject to expulsion or disciplinary review, with the Rector deciding each personal case individually. A leave of absence only takes effect upon a formal decision by the Rector; students may not suspend studies for more than 2 consecutive main semesters at a time, and the total cumulative suspension across the entire program must not exceed 4 main semesters for programs with a training duration of 4 to 6 years. To initiate the process, the student must complete the prescribed form from the Undergraduate Training Office and submit it there; the request will be processed within no more than 7 days from receipt. Together, these provisions mean that while a student can take multiple separate leaves, the 2-consecutive-semester cap prevents indefinite deferral per episode and the 4-semester total cap sets a hard ceiling on cumulative absence across the entire program."
+  },
+  {
+    "id": "Q15",
+    "original_id": "Q12",
+    "type": "MULTIHOP",
+    "query": "How does retaking a failed course affect a student's official module grade and CGPA?",
+    "source_clause": "Article 9, Clause 13; Article 10, Clause 2b",
+    "source_clause_id": [[9, 13], [10, 2]],
+    "ground_truth": "When a student with a failing module grade retakes the module, the grade from the most recent attempt becomes the official module grade recorded on their transcript, and all attempt grades are fully preserved in their academic data. For CGPA calculation - which governs academic performance classification, academic management decisions, and graduation ranking - the highest grade among all attempts is used, not the most recent. The SGPA for the semester of each attempt uses the first attempt grade for that module and is relevant only for scholarship and commendation consideration. Together, this means that retaking a failed module updates the official grade to the latest result, but the CGPA always benefits from the best performance achieved across all attempts."
+  },
+  {
+    "id": "Q16",
+    "original_id": "Q15",
+    "type": "MULTIHOP",
+    "query": "What happens to a student's second program enrollment if their CGPA in the first program falls below Average?",
+    "source_clause": "Article 19, Clause 3; Article 10, Clause 2",
+    "source_clause_id": [[19, 3], [10, 2]],
+    "ground_truth": "If, during concurrent enrollment in two programs, a student's CGPA in the first program falls below Average (i.e., below 50 on the 100-point scale, as classified in Article 10, Clause 4) or the student is placed under academic warning, the student must discontinue the second program from the following semester and will be removed from the list of those registered for the second program. The maximum permitted study period for students concurrently enrolled in two programs is the same as the maximum period stipulated for the first program. Together, these provisions mean that continued enrollment in a second program depends on maintaining at least Average CGPA in the first program, and losing that standing ends the concurrent enrollment from the next semester onward."
+  },
+  {
+    "id": "Q17",
+    "original_id": "Q16",
+    "type": "MULTIHOP",
+    "query": "Under what circumstances is a student's graduation ranking reduced by one level, and what is the full classification of graduation rankings against which this reduction is applied?",
+    "source_clause": "Article 15, Clause 3; Article 10, Clause 4",
+    "source_clause_id": [[15, 3], [10, 4]],
+    "ground_truth": "Graduation rankings are classified according to the cumulative GPA scale in Article 10, Clause 4: Excellent (90-100, A+, 4.0), Very Good (80-below 90, A, 3.5), Good (70-below 80, B+, 3.0), Above Average (60-below 70, B, 2.5), and Average (50-below 60, C, 2.0). Under Article 15, Clause 3, the graduation ranking for students with an Excellent or Very Good cumulative GPA will be reduced by one level if either of the following conditions applies: the volume of modules retaken due to failure - not counting modules retaken for grade improvement - exceeds 5% of the total credits stipulated for the entire program; or the student has been disciplined at the level of a warning or above at any point during their period of study. A reduction of one level means Excellent becomes Very Good, or Very Good becomes Good; students ranked Good or below are not subject to this downgrade."
+  },
+  {
+    "id": "Q18",
+    "original_id": "Q22",
+    "type": "MULTIHOP",
+    "query": "How are SGPA and CGPA each calculated, and how does the module retaking policy determine which grade from each attempt enters each calculation?",
+    "source_clause": "Article 10, Clause 2; Article 9, Clause 13",
+    "source_clause_id": [[10, 2], [9, 13]],
+    "ground_truth": "Both SGPA and CGPA use the credit-weighted formula A = sum(a_i x n_i) / sum(n_i). The SGPA uses the first attempt grade for each module in the corresponding semester and is used for scholarship, commendation, and concurrent enrollment decisions; the CGPA uses the highest grade among all attempts for each module and is used for academic classification, management decisions such as warnings and expulsion, and graduation ranking. The retaking rules in Article 9, Clause 13 explain why these two metrics diverge after a retake: for a failed module, the most recent attempt grade becomes the official transcript grade, yet the CGPA still draws from the highest grade across all attempts. For a passed module retaken for grade improvement, the highest grade is both the official grade and the CGPA input. This means a student who improves on retake benefits in the CGPA immediately, while a student whose grade-improvement retake scores lower is still protected by the earlier higher grade in the CGPA."
+  },
+  {
+    "id": "Q19",
+    "original_id": "Q24",
+    "type": "MULTIHOP",
+    "query": "How do the rules for cancelling or adjusting course registration after the semester has started interact with the minimum and maximum semester workload requirements that a student must maintain?",
+    "source_clause": "Article 6, Clause 3e; Article 6, Clause 4",
+    "source_clause_id": [[6, 3], [6, 4]],
+    "ground_truth": "Each student in a main semester must maintain a registered workload of at least 2/3 of the average semester workload under the standard study plan, and must not exceed 3/2 of that average. Students may freely adjust course registration during the first week of a main semester; there is no adjustment period for the summer semester. Requests for additional registration, adjustment, or cancellation submitted after the first week of a main semester will still be considered, but tuition fees will be calculated based on the time the request is submitted. The interaction between these rules means that a student who cancels modules after the first week risks dropping below the minimum workload threshold and faces prorated tuition charges, while a student adding modules after the first week may approach or exceed the maximum cap while also incurring time-based tuition. Students cannot freely drop modules solely to circumvent the minimum workload requirement without potential academic and financial consequences."
+  },
+  {
+    "id": "Q20",
+    "original_id": "Q25",
+    "type": "MULTIHOP",
+    "query": "If a student is caught sitting an examination on behalf of another student, what grade do they receive for that examination, what disciplinary penalties apply, and how does this affect their academic standing and eligibility to graduate?",
+    "source_clause": "Article 20, Clause 2; Article 9, Clause 9; Article 15, Clause 1",
+    "source_clause_id": [[20, 2], [9, 9], [15, 1]],
+    "ground_truth": "A student caught sitting an examination on behalf of another student faces multiple simultaneous consequences. Under Article 20, Clause 2, the disciplinary penalty is a suspension of studies for 1 year for the first violation, and expulsion for the second violation. For the module in which the violation occurred, the student is subject to examination prohibition and receives a grade of zero for that module. Regarding graduation eligibility: Article 15, Clause 1 requires that at the time of graduation review, a student must not be under disciplinary suspension of studies; a 1-year suspension therefore directly blocks graduation recognition during the suspension period. Expulsion for a second violation removes graduation eligibility entirely unless the student is provisionally readmitted under the narrow conditions of Article 11, Clause 3. Together, these provisions mean that a proxy examination offence creates cascading consequences - an immediate grade of zero for the module involved, a forced absence from study, and a temporary or permanent barrier to degree conferment."
+  },
+  {
+    "id": "Q21",
+    "original_id": "Q26",
+    "type": "MULTIHOP",
+    "query": "How is a student's year level determined under the credit-based system, and what academic eligibility does reaching second-year level specifically unlock?",
+    "source_clause": "Article 10, Clause 5; Article 19, Clause 2",
+    "source_clause_id": [[10, 5], [19, 2]],
+    "ground_truth": "A student's year level is determined by comparing N (total credits accumulated since the start of the course) with M (average credits per year under the standard study plan): first-year if N < M; second-year if M <= N < 2M; third-year if 2M <= N < 3M; fourth-year if 3M <= N < 4M; fifth-year if 4M <= N < 5M. Year level is a credits milestone, not a calendar measure. Reaching second-year level is directly consequential: Article 19, Clause 2 states that a student may register for a concurrent second program only after being classified at the second-year level in their first program, making it the earliest eligibility gate for dual enrollment. A student with a Good or above CGPA who crosses the second-year credit threshold becomes immediately eligible to apply for a second program, subject to the other conditions of Article 19, Clause 2."
+  },
+  {
+    "id": "Q22",
+    "original_id": "Q28",
+    "type": "MULTIHOP",
+    "query": "Under what circumstances is a student barred from the final examination with a grade of zero, and when can an absent student receive an Incomplete grade instead of zero?",
+    "source_clause": "Article 9, Clause 9; Article 9, Clause 11",
+    "source_clause_id": [[9, 9], [9, 11]],
+    "ground_truth": "Under Article 9, Clause 9, a student absent from more than 20% of scheduled class time for a theoretical module is barred from the final examination and must receive a grade of zero. A student absent from a centralized final examination who fails to submit valid supporting evidence to the Faculty/Department within 5 working days also receives a grade of zero. However, Clause 9c creates a narrow pathway to a Grade I (Incomplete) instead: if the Faculty/Department accepts the absence and the Undergraduate Training Office formally acknowledges it, a Grade I is recorded rather than zero. The eligibility conditions for that Grade I under Article 9, Clause 11 are more restrictive: the student must have attended class and paid tuition, must not already hold a Grade I for the module, the absence must be due to force majeure such as bereavement or hospitalization, and the student must not already be under examination prohibition. Students barred due to excessive semester absences do not qualify for Grade I, since Clause 11a explicitly excludes those under examination prohibition. Together these provisions draw a clear boundary: excessive class absence triggers automatic barring with no Grade I option, while a single justified absence from the final examination - with no prior barring - is the only path to Grade I instead of zero."
+  },
+  {
+    "id": "Q23",
+    "original_id": null,
+    "type": "MULTIHOP",
+    "query": "A student in a 120-credit program retakes 7 credits worth of modules due to failure and achieves a final CGPA of 3.7 (Excellent classification). What is their graduation ranking and why?",
+    "source_clause": "Article 9, Clause 13; Article 15, Clause 3; Article 10, Clause 4",
+    "source_clause_id": [[9, 13], [15, 3], [10, 4]],
+    "ground_truth": "The student's graduation ranking is Very Good, not Excellent. The calculation proceeds as follows. Under Article 15, Clause 3, the graduation ranking for students with Excellent or Very Good CGPA is reduced by one level if the volume of modules retaken due to failure exceeds 5% of the total credits of the entire program. In this case, 7 retaken credits out of a 120-credit program equals 5.83%, which exceeds the 5% threshold. Therefore, even though the student's CGPA qualifies as Excellent under the Article 10, Clause 4 classification (90-100 on the 100-point scale), the ranking is reduced by one level from Excellent to Very Good. The retaking credits counted toward this threshold are only those retaken due to failure; modules retaken for grade improvement are explicitly excluded from the calculation. The reduction applies only to Excellent and Very Good rankings — students ranked Good or below are not subject to this downgrade."
+  },
+  {
+    "id": "Q24",
+    "original_id": null,
+    "type": "MULTIHOP",
+    "query": "A student enrolled concurrently in two programs has their CGPA drop to 48 points at the end of a semester. What academic management action is triggered for the first program, and what is the consequence for their second program enrollment?",
+    "source_clause": "Article 10, Clause 4; Article 19, Clause 3; Article 11, Clause 1",
+    "source_clause_id": [[10, 4], [19, 3], [11, 1]],
+    "ground_truth": "A CGPA of 48 points falls below the Average threshold of 50 points as defined in Article 10, Clause 4, which classifies cumulative GPA into bands: Excellent (90-100), Very Good (80-below 90), Good (70-below 80), Above Average (60-below 70), Average (50-below 60), Weak (40-below 50), and Poor (30-below 40). Under Article 19, Clause 3, if the CGPA for the first program falls below Average during concurrent enrollment in two programs, the student must discontinue the second program from the following semester and is removed from the second program enrollment list. This consequence is triggered directly by the below-Average CGPA — Article 19, Clause 3 states the trigger as either falling below Average or being placed on academic warning, and the below-Average condition alone is sufficient. Regarding the first program: a CGPA of 48 does not itself trigger academic warning under Article 11, Clause 1, because the academic warning CGPA threshold requires the CGPA to fall below 35 on the 100-point scale (or below 40 for 2 consecutive semesters) — not below 50. Therefore no formal academic warning is issued for the first program based solely on the CGPA of 48. The consequences cascade as follows: the 48-point CGPA falls below Average as defined in Article 10, Clause 4; this below-Average status directly activates the second-program discontinuation rule of Article 19, Clause 3; the student remains enrolled in the first program without an Article 11 academic warning, since 48 exceeds the warning threshold of 35."
+  },
+  {
+    "id": "Q25",
+    "original_id": null,
+    "type": "CROSSREF",
+    "query": "What conditions must a student satisfy to register for the graduation thesis module, and what is the specific foreign language proficiency standard they must have been recognized as meeting?",
+    "source_clause": "Article 13, Clause 2; Article 12, Clause 2",
+    "source_clause_id": [[13, 2], [12, 2]],
+    "ground_truth": "To register for the graduation thesis module, a student must satisfy three conditions under Article 13, Clause 2: they must have accumulated a minimum of 90% of the program credits excluding the graduation thesis module itself; they must be recognized as having met the foreign language exit standard; and they must satisfy the graduation thesis conditions specific to their field of study, which must be publicly announced on the faculty and department website. Students participating in the graduation thesis must also be on the list approved in the university's decision recognizing students assigned to work on the graduation thesis. The foreign language exit standard is defined separately under Article 12, Clause 2: the standard is determined by the Rector based on proposals from the Academic and Training Council and must not be lower than the standard stipulated by VNU-HCM and the Ministry of Education and Training. Students are recognized as meeting the exit standard by submitting valid international English certificates accepted by the university; the Undergraduate Training Office submits these to the Rector for formal recognition through multiple rounds during the academic year, with recognition valid for the entire course. Together, graduation thesis registration requires a credit accumulation threshold, a formally recognized language proficiency certification, and field-specific conditions — all three must be satisfied before the student may be placed on the approved graduation thesis participant list."
+  },
+  {
+    "id": "Q26",
+    "original_id": null,
+    "type": "CROSSREF",
+    "query": "In cooperation training between IU and a partner institution where both Rectors have agreed on mutual recognition and assessment, what is the maximum number of credits a student may accumulate at the partner institution, and how does this limit compare to the maximum credits that may be exempted for modules equivalent to those passed in a previously completed undergraduate program?",
+    "source_clause": "Article 18, Clause 3; Article 9, Clause 12",
+    "source_clause_id": [[18, 3], [9, 12]],
+    "ground_truth": "Under Article 18, Clause 3, in training cooperation programs between IU and partner institutions where mutual recognition and assessment have been agreed upon by the Rectors of both institutions, the number of credits accumulated by students at the partner institution must not exceed 25% of the total program workload. This is a hard cap on credits earned externally during the current enrollment. Under Article 9, Clause 12, a separate cap applies to module exemptions granted for a previously completed undergraduate program: the total credits considered for exemption must not exceed 50% of the total credits of the entire current training program. The two caps serve different purposes and operate independently: the 25% cap under Article 18 limits ongoing credit accumulation at a partner institution during study, while the 50% cap under Article 9 limits the recognition of prior learning from a completed degree before or alongside the current program. A student who has already benefited from credit exemptions approaching the 50% ceiling from a prior degree and then participates in cooperation training must still separately respect the 25% partner-institution cap — the two limits do not aggregate against a single shared ceiling and neither overrides the other."
+  },
+  {
+    "id": "Q27",
+    "original_id": null,
+    "type": "MULTIHOP",
+    "query": "What is the maximum proportion of a program's total credits that may be delivered online under normal circumstances, and how do the component grade weightings for an online module differ from those of a standard in-person theoretical module?",
+    "source_clause": "Article 7, Clause 2; Article 9, Clause 2",
+    "source_clause_id": [[7, 2], [9, 2]],
+    "ground_truth": "Under Article 7, Clause 2, the number of credits delivered through online teaching must not exceed 30% of the total program workload under normal conditions. In cases of natural disasters, complex epidemics, or other force majeure circumstances, online class organization follows guidance from the Ministry of Education and Training and VNU-HCM, which may permit a higher proportion. The component grade weightings under Article 9, Clause 2 differ between delivery modes. For standard in-person theoretical modules, the proportions are: practical work, assignments, and essays 20–40%; mid-term examination 20–40%; final examination 30–50%. For online modules, the proportions shift: practical work, assignments, and essays 30–60%; mid-term examination 20–40%; final examination 20–40%. The key structural difference is that online delivery transfers assessment weight from the final examination — whose upper bound drops from 50% to 40% — to the in-semester practical and assignment component, whose lower bound rises from 20% to 30% and whose upper bound rises from 40% to 60%. The total percentage across all component grades remains 100% in both cases, and the official 100-point grading scale defined in Article 9, Clause 1 applies uniformly regardless of delivery mode. Together, these two provisions mean that a student in an online module faces a higher continuous assessment burden and a lower-weighted final examination than a student in the equivalent in-person module."
+  },
+  {
+    "id": "Q28",
+    "original_id": null,
+    "type": "MULTIHOP",
+    "query": "What are the differences in academic rights between an auditing student and a student concurrently enrolled in a second degree program, specifically regarding graduation recognition and degree conferment?",
+    "source_clause": "Article 18, Clause 4; Article 19, Clause 1; Article 15, Clause 1",
+    "source_clause_id": [[18, 4], [19, 1], [15, 1]],
+    "ground_truth": "Auditing students and students concurrently enrolled in a second degree program have categorically different academic rights regarding graduation. Under Article 18, Clause 4, auditing students are individuals who satisfy the requisite personal and academic standards and wish to supplement knowledge in certain modules; they pay 100% of the tuition fee for each module attended and receive a certificate of attendance and academic results upon completion, but they are explicitly barred from completing capstone projects or graduation theses and cannot be considered for graduation to receive a degree. Under Article 19, Clause 1, a student concurrently enrolled in a second program under the credit-based training mode accumulates credits in another field of study and is eligible to receive official graduation benefits from the second program, provided they have successfully registered for that program as stipulated in Article 19, Clause 2. Graduation recognition from the second program is subject to the full conditions of Article 15, Clause 1: the student must have accumulated all required credits and met the program learning outcomes, hold a cumulative GPA of at least Average, have met the foreign language exit standard, hold the required NPD and PE certificates, have completed political education and civic activity modules, not be subject to criminal prosecution or disciplinary suspension, and have fulfilled all financial obligations. The distinction is categorical: auditing status permanently bars degree conferment by explicit regulatory provision, while concurrent enrollment in a second program preserves full graduation eligibility subject to the standard Article 15 conditions being met for that program."
+  }
+]

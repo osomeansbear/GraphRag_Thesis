@@ -1,0 +1,5 @@
+challenger,question_type,n_pairs,vector_mean,challenger_mean,delta,wilcoxon_p,ttest_p,sig_wilcoxon,sig_ttest
+GRAPH_RETRIEVAL,CROSSREF,14,0.6162,0.6387,0.0225,0.0912,0.1559,ns,ns
+GRAPH_RETRIEVAL,MULTIHOP,14,0.6302,0.661,0.0307,0.1206,0.1227,ns,ns
+GRAPH_ITERATIVE,CROSSREF,14,0.6162,0.6617,0.0455,0.2316,0.126,ns,ns
+GRAPH_ITERATIVE,MULTIHOP,14,0.6302,0.6577,0.0275,0.0863,0.1858,ns,ns
