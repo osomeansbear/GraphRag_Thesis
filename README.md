@@ -10,7 +10,7 @@ Question-answering over the IU Academic Regulations (QĐ.719) using a four-layer
 
 - Python 3.10+
 - [Neo4j Desktop](https://neo4j.com/download/) with a local DBMS running Neo4j 5.x
-- A [Groq API key](https://console.groq.com/) (free tier is sufficient)
+- A [Groq API key](https://console.groq.com/) (you will need more than 1 key for free tier 4 is sufficient)
 
 ---
 
