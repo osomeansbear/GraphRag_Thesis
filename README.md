@@ -50,7 +50,7 @@ Verify in Neo4j Browser (`http://localhost:7474`):
 MATCH (n) RETURN labels(n), count(n);
 ```
 
-Expected: Document(1), Chapter(6), Article(22), Clause(117), Entity(474).
+Expected: Document(1), Chapter(5), Article(22), Clause(117), Entity(474).
 
 ---
 
