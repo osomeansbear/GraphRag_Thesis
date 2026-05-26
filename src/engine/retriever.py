@@ -15,7 +15,7 @@ Components:
     conditional=2 (default=1.0). Seeds: vector anchor clauses + query entities.
   - CrossEncoder post-expansion filter (ms-marco-MiniLM-L-6-v2): eliminates
     context-polluting clauses before passing to the LLM.
-  - Reflection LLM (FallbackGroqLLM): structured JSON audit call used only by
+  - Reflection LLM: structured JSON audit call used only by
     GRAPH_ITERATIVE to identify missing regulatory concepts after Retrieve-1.
 """
 
@@ -60,7 +60,7 @@ class ThesisRetriever:
     def __init__(self):
         self.driver = SettingsConfig.neo4j_driver
         self.embed_model = SettingsConfig.embed_model
-        self.llm = Settings.llm
+        self.llm = None
 
     # ------------------------------------------------------------------
     # Cross-Encoder Re-ranker
@@ -168,7 +168,6 @@ class ThesisRetriever:
         Edge weights use the same tier as path scoring:
           causal (REQUIRES/LEADS_TO) = 3.0, conditional = 2.0,
           REFERS_TO (clause-clause L2) = 2.0, MENTIONS (clause-entity) = 1.0.
-        CO_OCCURS edges are excluded — 2308 weak edges drown the typed semantic signal.
         All edges added bidirectionally so PPR can diffuse in both directions.
         """
         import networkx as nx
@@ -177,7 +176,6 @@ class ThesisRetriever:
         # Entity-entity typed relations (L3)
         res = session.run("""
             MATCH (e1:Entity)-[r]->(e2:Entity)
-            WHERE type(r) <> 'CO_OCCURS'
             RETURN e1.name AS src, type(r) AS rel_type, e2.name AS tgt,
                    coalesce(r.weight, 1.0) AS stored_weight
         """)
@@ -187,9 +185,6 @@ class ThesisRetriever:
             G.add_node(rec["tgt"], node_type="Entity")
             G.add_edge(rec["src"], rec["tgt"], weight=w)
             G.add_edge(rec["tgt"], rec["src"], weight=w * 0.5)  # weak reverse
-
-        # CO_OCCURS excluded from PPR — 2308 weak edges drown typed semantic signal.
-        # Edges remain in Neo4j for potential future use.
 
         # MENTIONS edges: Clause -> Entity (bidirectional for diffusion)
         res = session.run("""
@@ -206,7 +201,7 @@ class ThesisRetriever:
             G.add_edge(cid, ename, weight=1.0)
             G.add_edge(ename, cid, weight=0.5)  # entity -> clause (weaker)
 
-        # REFERS_TO edges: Clause -> Clause (L2, bidirectional — fix 2.5)
+        # REFERS_TO edges: Clause -> Clause (L2, weight=2.0, bidirectional)
         res = session.run("""
             MATCH (c1:Clause)-[:REFERS_TO]-(c2:Clause)
             RETURN DISTINCT c1.id AS src, c2.id AS tgt,
@@ -269,7 +264,7 @@ class ThesisRetriever:
     # ------------------------------------------------------------------
     # GRAPH_RETRIEVAL — PPR over L2+L3 + query-entity seeding + CrossEncoder filter
     # ------------------------------------------------------------------
-    def retrieve_graph(self, query: str, top_k: int = 5) -> Tuple[str, str, list, list]:
+    def retrieve_graph(self, query: str, top_k: int = 5, trace: dict = None) -> Tuple[str, str, list, list]:
         """
         Graph retrieval: Personalized PageRank over the combined L2+L3 graph,
         seeded by vector anchor clauses (70%) + query entity nodes (30%), with
@@ -375,9 +370,36 @@ class ThesisRetriever:
                 "source": "ppr",
             })
 
-        # CrossEncoder filter — kill context pollution (fix 2.4)
+        # CrossEncoder filter - kill context pollution
         # top_n=3 matches VECTOR_RETRIEVAL's 3-clause context window for fair comparison.
         candidates = self._rerank_filter(query, candidates, top_n=3)
+
+        # --- Optional retrieval trace for the demo. When trace is None (every
+        #     run_3x3.py / experiment call) this block is skipped and behaviour
+        #     is unchanged. ---
+        if trace is not None:
+            trace["query"] = query
+            trace["anchors"] = [
+                {"id": n["id"], "article_num": n.get("article_num"),
+                 "clause_num": n.get("clause_num"), "score": float(n["score"])}
+                for n in anchors
+            ]
+            trace["entity_seeds"] = list(valid_entities)
+            trace["ppr_expanded"] = [
+                {"id": cid,
+                 "article_num": id_to_clause.get(cid, {}).get("article_num"),
+                 "clause_num": id_to_clause.get(cid, {}).get("clause_num"),
+                 "ppr_score": float(clause_scores.get(cid, 0.0))}
+                for cid in top_expanded_ids
+            ]
+            trace["final"] = [
+                {"id": c["id"], "article_num": c.get("article_num"),
+                 "clause_num": c.get("clause_num"),
+                 "rerank_score": float(c.get("rerank_score", 0.0)),
+                 "source": c.get("source")}
+                for c in candidates
+            ]
+            trace["graph"] = G
 
         chunks = [
             f"[{c['source'].upper()} score={c['score']:.3f} | relevance={c.get('rerank_score', 0.0):.2f}]\n{c['text']}"
@@ -451,7 +473,7 @@ class ThesisRetriever:
     # ------------------------------------------------------------------
 
     def retrieve_graph_iterative(
-        self, query: str, top_k: int = 5
+        self, query: str, top_k: int = 5, trace: dict = None
     ) -> Tuple[str, str, list, list]:
         """
         One-cycle iterative retrieval over the L2+L3 graph.
@@ -466,7 +488,7 @@ class ThesisRetriever:
         """
         self.last_gap = None
 
-        ctx1, conf1, chunks1, keys1 = self.retrieve_graph(query, top_k)
+        ctx1, conf1, chunks1, keys1 = self.retrieve_graph(query, top_k, trace=trace)
         if not ctx1:
             return ctx1, conf1, chunks1, keys1
 

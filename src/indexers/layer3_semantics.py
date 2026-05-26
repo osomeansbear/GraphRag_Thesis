@@ -66,7 +66,7 @@ class ExtractionResult(BaseModel):
 # --- 2. EXTRACTION FUNCTION ---
 # Models verified against the current Groq lineup (2026-04). Order = quality-first
 # with fallbacks chosen for high TPM / RPM headroom and instructor-tools compatibility.
-# Scout is included here (graph build only) — RAGAS uses llama-3.3-70b directly.
+# Scout is included here for graph-build throughput headroom.
 MODELS_FALLBACK = [
     "llama-3.3-70b-versatile",                    # primary (strongest, but TPM=12K is tight)
     "meta-llama/llama-4-scout-17b-16e-instruct",  # TPM=30K — best fallback for throughput
@@ -144,9 +144,9 @@ def extract_with_fallback(text: str, client) -> tuple[ExtractionResult, str]:
                 continue
             raise
 
-# --- 3. MAIN PIPELINE V28 ---
-def build_layer_23_semantics_v28():
-    print("--- LAYER 2 & 3 (V28): SEMANTIC EXTRACTION ---")
+# --- 3. MAIN PIPELINE ---
+def build_layer_3_semantics():
+    print("--- LAYER 3: SEMANTIC EXTRACTION ---")
     store = SettingsConfig.get_graph_store()
 
     # Setup Instructor client (single client, model is passed per-call)
@@ -225,4 +225,4 @@ def build_layer_23_semantics_v28():
     print("Run Graph Health Check to review results.")
 
 if __name__ == "__main__":
-    build_layer_23_semantics_v28()
+    build_layer_3_semantics()

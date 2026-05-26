@@ -1,7 +1,7 @@
 """
 Regex-based REFERS_TO edge extraction.
 
-The existing LLM-based layer2_crossref.py produced only ~12 REFERS_TO edges.
+The existing regex-based layer2_crossref.py produced only ~12 REFERS_TO edges.
 This script supplements it by scanning every clause for explicit textual
 references to other Articles/Clauses and creating REFERS_TO edges directly.
 
@@ -14,7 +14,7 @@ Patterns matched (case-insensitive):
   - "provided in Article <N>, Clause <M>"
 
 Run after building Layer 1 (structure). Does not require Layer 3 to be built.
-Expected result: grows REFERS_TO from ~12 to 40+ edges.
+Expected result: grows REFERS_TO from ~12 to 28 edges.
 """
 
 import os

@@ -3,7 +3,7 @@ import unicodedata
 from docling.document_converter import DocumentConverter
 from src.core.config import SettingsConfig
 
-def build_layer_1_structure_v24_list_ops():
+def build_layer_1_structure():
 
     store = SettingsConfig.get_graph_store()
     store.client.execute_query("MATCH (n) DETACH DELETE n")
@@ -173,7 +173,7 @@ def build_layer_1_structure_v24_list_ops():
             if last_node_id: buffer.append(line)
 
     flush()
-    print("V24 complete. All titles processed and graph nodes created.")
+    print("All titles processed and graph nodes created.")
 
 if __name__ == "__main__":
-    build_layer_1_structure_v24_list_ops()
+    build_layer_1_structure()

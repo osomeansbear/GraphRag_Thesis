@@ -1,8 +1,8 @@
 import re
 from src.core.config import SettingsConfig
 
-def build_layer_1_crossref_v30_precision():
-    print("--- LAYER 1.5 (V30): PRECISION CROSS-REFERENCE ---")
+def build_layer_2_crossref():
+    print("--- LAYER 2: PRECISION CROSS-REFERENCE ---")
 
     store = SettingsConfig.get_graph_store()
 
@@ -101,7 +101,7 @@ def build_layer_1_crossref_v30_precision():
                     """, sid=source_id, tid=target_id)
                     count_wide += 1
 
-    print(f"V30 complete: {count_deep} deep links (clause-level), {count_wide} article links.")
+    print(f"Complete: {count_deep} deep links (clause-level), {count_wide} article links.")
 
 if __name__ == "__main__":
-    build_layer_1_crossref_v30_precision()
+    build_layer_2_crossref()

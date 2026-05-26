@@ -70,6 +70,175 @@ RESULT_CSVS = [
     Path("outputs/eval_iter.csv"),
 ]
 
+# ── Retrieval-trace helpers (graph traversal panel) ─────────────────────────────
+def _esc(s) -> str:
+    """Escape a string for safe use inside a Graphviz DOT label."""
+    return str(s).replace("\\", "").replace('"', "'")
+
+
+def _build_traversal_dot(trace: dict, max_entities: int = 6) -> str | None:
+    """Left-to-right retrieval-flow diagram:
+        QUERY -> vector anchors -> shared entities -> final top-3 -> ANSWER.
+    Clauses the graph pulled into the top-3 (not vector anchors) are highlighted
+    with a blue border; anchors that were filtered out are faded."""
+    G = trace.get("graph")
+    anchors = trace.get("anchors", [])
+    final = trace.get("final", [])
+    seeds = set(trace.get("entity_seeds", []))
+    if G is None or not final:
+        return None
+
+    def clabel(d: dict) -> str:
+        a, c = d.get("article_num"), d.get("clause_num")
+        if a is None:
+            return str(d.get("id", "?"))
+        return f"Art {a}.{c}" if c is not None else f"Art {a}"
+
+    anchor_ids = [a["id"] for a in anchors]
+    anchor_set = set(anchor_ids)
+    final_set = {f["id"] for f in final}
+    label_of = {d["id"]: clabel(d) for d in anchors + final}
+
+    kept = [c for c in label_of if c in anchor_set and c in final_set]
+    reached = [c for c in label_of if c in final_set and c not in anchor_set]
+    dropped = [c for c in label_of if c in anchor_set and c not in final_set]
+    reached_set = set(reached)
+
+    # entities mentioned by each retrieved clause
+    ent_clauses: dict = {}
+    for cid in label_of:
+        if cid in G:
+            for nb in G.successors(cid):
+                if G.nodes[nb].get("node_type") == "Entity":
+                    ent_clauses.setdefault(nb, set()).add(cid)
+
+    # An entity earns a place only if it genuinely bridges retrieval:
+    #   * mentioned by both an anchor and a graph-reached clause (the real PPR
+    #     path that pulled the clause in), or
+    #   * connects two or more retrieved clauses, or
+    #   * is itself a query-matched seed.
+    # This drops entities that *only* a single graph-reached clause mentions —
+    # those aren't bridges, they're just that clause's local vocabulary.
+    def _useful(e):
+        cs = ent_clauses[e]
+        if cs & anchor_set and cs & reached_set:
+            return True
+        if len(cs) >= 2:
+            return True
+        return e in seeds
+
+    bridges = [e for e in ent_clauses if _useful(e)]
+    bridges.sort(
+        key=lambda e: (len(ent_clauses[e] & reached_set), len(ent_clauses[e]), e in seeds),
+        reverse=True,
+    )
+    bridges = bridges[:max_entities]
+    ent_id = {e: f"ent{i}" for i, e in enumerate(bridges)}
+
+    qtext = _esc((trace.get("query") or "")[:46])
+    lines = [
+        "digraph G {",
+        'rankdir=LR; bgcolor="transparent"; nodesep=0.3; ranksep=0.7;',
+        'node [fontname="Helvetica", fontsize=10];',
+        'edge [fontname="Helvetica", fontsize=8];',
+        f'QUERY [label="QUERY:\\n{qtext}...", shape=cds, style=filled, '
+        'fillcolor="#37474f", fontcolor="white"];',
+        'ANSWER [label="ANSWER\\n(top-3 to LLM)", shape=cds, style=filled, '
+        'fillcolor="#1b5e20", fontcolor="white"];',
+    ]
+    for cid in dropped:
+        lines.append(f'"{cid}" [label="{_esc(label_of[cid])}", shape=box, '
+                     'style="filled,rounded", fillcolor="#eceff1", '
+                     'fontcolor="#90a4ae", color="#cfd8dc"];')
+    for cid in kept:
+        lines.append(f'"{cid}" [label="{_esc(label_of[cid])}", shape=box, '
+                     'style="filled,rounded", fillcolor="#c8e6c9"];')
+    for cid in reached:
+        lines.append(f'"{cid}" [label="{_esc(label_of[cid])}\\n(via graph)", '
+                     'shape=box, style="filled,rounded", fillcolor="#c8e6c9", '
+                     'color="#1565c0", penwidth=2];')
+    for e in bridges:
+        mark = "  (seed)" if e in seeds else ""
+        lines.append(f'{ent_id[e]} [label="{_esc(e)}{mark}", shape=ellipse, '
+                     'style=filled, fillcolor="#f5f5f5"];')
+
+    for cid in anchor_ids:
+        lines.append(f'QUERY -> "{cid}" [color="#b0bec5"];')
+    for e in bridges:
+        for cid in ent_clauses[e]:
+            if cid in anchor_set:
+                lines.append(f'"{cid}" -> {ent_id[e]} [color="#cfcfcf"];')
+    for e in bridges:
+        for cid in ent_clauses[e]:
+            if cid in reached_set:
+                lines.append(f'{ent_id[e]} -> "{cid}" [color="#1565c0", penwidth=1.6];')
+    for cid in sorted(final_set):
+        lines.append(f'"{cid}" -> ANSWER [color="#2e7d32", penwidth=1.6];')
+    lines.append("}")
+    return "\n".join(lines)
+
+
+def _render_trace(trace: dict, mode: str) -> None:
+    """Render the GRAPH_RETRIEVAL pipeline + graph-traversal panel for a question."""
+    if mode == "VECTOR_RETRIEVAL":
+        st.caption("VECTOR mode — dense similarity search only; no graph traversal step.")
+        return
+    if not trace or not trace.get("anchors"):
+        return
+
+    anchors = trace.get("anchors", [])
+    seeds = trace.get("entity_seeds", [])
+    expanded = trace.get("ppr_expanded", [])
+    final = trace.get("final", [])
+
+    def _cl(d: dict) -> str:
+        a, c = d.get("article_num"), d.get("clause_num")
+        return f"Art {a}.{c}" if c is not None else f"Art {a}"
+
+    with st.expander("Retrieval trace — pipeline & graph traversal", expanded=True):
+        if mode == "GRAPH_ITERATIVE":
+            st.caption("Trace shows the first PPR pass (GRAPH_RETRIEVAL) within GRAPH_ITERATIVE.")
+
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.markdown("**① Vector anchors**")
+            st.caption(f"top-{len(anchors)} by cosine")
+            for a in anchors:
+                st.markdown(f"`{_cl(a)}` · {a['score']:.2f}")
+        with col2:
+            st.markdown("**② Entity seeds**")
+            st.caption(f"{len(seeds)} matched")
+            if seeds:
+                for e in seeds[:10]:
+                    st.markdown(f"· {e}")
+            else:
+                st.caption("— none —")
+        with col3:
+            st.markdown("**③ PPR expansion**")
+            st.caption(f"top-{len(expanded)} by PPR score")
+            for x in expanded[:6]:
+                st.markdown(f"`{_cl(x)}`")
+            if len(expanded) > 6:
+                st.caption(f"+ {len(expanded) - 6} more")
+        with col4:
+            st.markdown("**④ CrossEncoder → top-3**")
+            st.caption("final generation context")
+            for f in final:
+                st.markdown(f"`{_cl(f)}` · {f.get('rerank_score', 0.0):.2f}")
+
+        st.markdown(
+            "**Graph traversal** — read left to right: **QUERY** → vector anchors → "
+            "shared entities → final top-3 → **ANSWER**. Green = clause used in the "
+            "answer; a **blue border** marks a clause the graph pulled in (not a "
+            "vector anchor); faded boxes are anchors that were filtered out."
+        )
+        dot = _build_traversal_dot(trace)
+        if dot:
+            st.graphviz_chart(dot, use_container_width=True)
+        else:
+            st.info("No retrieved clauses to display for this query.")
+
+
 # ── Cached data loaders ────────────────────────────────────────────────────────
 @st.cache_data
 def load_results() -> pd.DataFrame | None:
@@ -174,12 +343,17 @@ with tab_qa:
                             st.code(chunk if isinstance(chunk, str) else str(chunk), language=None)
 
     GENERATION_PROMPT = (
-        "You are an Academic Regulations Assistant. "
-        "Answer the question based solely on the CONTEXT below.\n"
-        "- Cite using [Article N] or [Clause N, Article M].\n"
-        "- If not in context, say: 'I could not find this in the regulations.'\n"
-        "- Be concise and factual.\n\n"
-        "CONTEXT:\n{context}"
+        """You are an Academic Regulations Assistant.
+Answer the question based solely on the CONTEXT provided below.
+RULES:
+- If the context contains "REASONING CHAIN", prioritize that information.
+- Cite your sources using those real numbers, e.g. [Article 11] or [Clause 2, Article 11]. Always use the actual numbers from the context never the literal letters N, X, M or Y.
+- If the information is not in the context, say: "I could not find this in the regulations."
+- Keep answers concise and factual.
+
+CONTEXT:
+{context}
+"""  
     )
 
     def _generate(context_str: str, query: str, llm) -> str:
@@ -194,18 +368,34 @@ with tab_qa:
             return f"Generation error: {exc}"
 
     def _run_single(query: str, sel_mode: str, retriever, llm) -> dict:
+        tr: dict = {}
         try:
-            context_str, confidence, chunks, _ = retriever.search(query, mode=sel_mode)
+            if sel_mode == "GRAPH_RETRIEVAL":
+                context_str, confidence, chunks, keys = retriever.retrieve_graph(query, trace=tr)
+            elif sel_mode == "GRAPH_ITERATIVE":
+                context_str, confidence, chunks, keys = retriever.retrieve_graph_iterative(query, trace=tr)
+            else:
+                context_str, confidence, chunks, keys = retriever.search(query, mode=sel_mode)
         except Exception as exc:
             return {"answer": f"Retrieval error: {exc}", "confidence": "NONE",
-                    "citations": [], "contexts": [], "mode": sel_mode}
+                    "citations": [], "contexts": [], "mode": sel_mode, "trace": {}}
         if not context_str:
             return {"answer": "No relevant information found. (Check Neo4j is running and the clause_vector_index exists.)",
-                    "confidence": "NONE", "citations": [], "contexts": [], "mode": sel_mode}
-        answer = _generate(context_str, query, llm)
+                    "confidence": "NONE", "citations": [], "contexts": [], "mode": sel_mode, "trace": {}}
+        # Prefix each clause with its [Article X, Clause Y] so the LLM can cite
+        # accurately — the raw chunk text carries the clause number but not the article.
+        labelled = []
+        for chunk, key in zip(chunks, keys):
+            a = key[0] if key else None
+            c = key[1] if key and len(key) > 1 else None
+            body = chunk.split("\n", 1)[1] if "\n" in chunk else chunk
+            tag = f"[Article {a}, Clause {c}]" if a is not None else "[unlabelled clause]"
+            labelled.append(f"{tag}\n{body}")
+        gen_context = "\n\n".join(labelled) if labelled else context_str
+        answer = _generate(gen_context, query, llm)
         citations = list(dict.fromkeys(CITATION_RE.findall(answer)))
         return {"answer": answer, "confidence": confidence,
-                "citations": citations, "contexts": chunks, "mode": sel_mode}
+                "citations": citations, "contexts": chunks, "mode": sel_mode, "trace": tr}
 
     prompt = st.chat_input("Ask about the academic regulations...")
     if prompt is None and st.session_state.prefill:
@@ -266,6 +456,7 @@ with tab_qa:
                         for idx, chunk in enumerate(result["contexts"], 1):
                             st.markdown(f"**Chunk {idx}**")
                             st.code(chunk if isinstance(chunk, str) else str(chunk), language=None)
+                _render_trace(result.get("trace", {}), result["mode"])
                 st.session_state.messages.append({
                     "role": "assistant", "content": result["answer"], "meta": result,
                 })
@@ -287,9 +478,9 @@ with tab_results:
         st.markdown("""
         <div class="finding-box">
         <strong>Key findings:</strong>
-        GRAPH_RETRIEVAL outperforms VECTOR_RETRIEVAL on BERTScore F1 (p=0.046*) and ROUGE-L (p=0.013*).
-        GRAPH_ITERATIVE shows further ROUGE-L improvement (p=0.027* vs VECTOR).
-        Recall@3 is lower for graph modes — PPR expands to adjacent unlabelled clauses (context quality paradox).
+        GRAPH_RETRIEVAL significantly improves ROUGE-L over VECTOR_RETRIEVAL (p=0.013, surviving Bonferroni correction); the BERTScore F1 gain (p=0.046) is directional and does not survive correction.
+        GRAPH_ITERATIVE adds no significant gain over GRAPH_RETRIEVAL.
+        Recall@3 does not significantly change for graph modes even though answer quality rises — PPR surfaces adjacent unlabelled clauses that share the answer's regulatory vocabulary.
         </div>
         """, unsafe_allow_html=True)
 
@@ -436,17 +627,16 @@ with tab_arch:
 |---|---|
 | Clause nodes | 117 |
 | Entity nodes | 474 |
-| MENTIONS edges | 834 |
-| REFERS_TO edges | 28 |
+| MENTIONS edges | 813 |
+| REFERS_TO edges | 28 (25 Clause→Clause used in PPR) |
 | Typed L3 relation types | 6 |
-| CO_OCCURS edges (excluded from PPR) | 2308 |
         """)
 
         st.subheader("Quantitative Results (N=28)")
         st.markdown("""
 <div class="result-row result-mid">VECTOR &nbsp;&nbsp;&nbsp;— BERTScore: 0.623 · ROUGE-L: 0.278 · Recall@3: 0.619 (baseline)</div>
-<div class="result-row result-best">GRAPH &nbsp;&nbsp;&nbsp;&nbsp;— BERTScore: 0.650 · ROUGE-L: 0.324 · Recall@3: 0.577 (p=0.046* / p=0.013*)</div>
-<div class="result-row result-best">ITER &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— BERTScore: 0.660 · ROUGE-L: 0.329 · Recall@3: 0.577 (ROUGE-L p=0.027*)</div>
+<div class="result-row result-best">GRAPH &nbsp;&nbsp;&nbsp;&nbsp;— BERTScore: 0.650 · ROUGE-L: 0.324 · Recall@3: 0.577 (ROUGE-L p=0.013, survives Bonferroni)</div>
+<div class="result-row result-best">ITER &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— BERTScore: 0.660 · ROUGE-L: 0.329 · Recall@3: 0.577 (no significant gain over GRAPH)</div>
 """, unsafe_allow_html=True)
 
         st.subheader("Why does Recall@3 decrease for graph modes?")
@@ -463,7 +653,7 @@ contains the information needed to answer correctly.
         st.markdown("""
 - **Graph DB:** Neo4j 5 (local)
 - **Framework:** LlamaIndex (llama-index-core 0.14)
-- **Graph construction LLM:** FallbackGroqLLM (llama-3.3-70b → qwen3-32b → llama-3.1-8b)
+- **Graph construction LLM:** 4-model Groq fallback chain (llama-3.3-70b → llama-4-scout-17b → qwen3-32b → llama-3.1-8b)
 - **Generation / reflection LLM:** SingleGroqLLM (llama-3.1-8b-instant, fixed)
 - **Reranker:** `cross-encoder/ms-marco-MiniLM-L-6-v2`
 - **UI:** Streamlit

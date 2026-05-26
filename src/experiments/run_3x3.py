@@ -56,7 +56,6 @@ MODES = ["VECTOR_RETRIEVAL", "GRAPH_RETRIEVAL", "GRAPH_ITERATIVE"]
 
 DEFAULT_QUESTIONS = "data/test_set/questions_multihop_focused.json"
 OUTPUT_DIR = "outputs"
-DEFAULT_OUTPUT_CSV = os.path.join(OUTPUT_DIR, "tier1_results.csv")
 
 BERTSCORE_MODEL = "bert-base-uncased"
 
@@ -316,7 +315,7 @@ def _save_scores(records: list, path: str):
 
 
 def _print_summary(scores_path: str = None):
-    path = scores_path or DEFAULT_OUTPUT_CSV
+    path = scores_path
     if not os.path.exists(path):
         return
     df = pd.read_csv(path)
@@ -360,7 +359,7 @@ def run(
     scores_path: str = None,
     ids_filter: list = None,
 ):
-    effective_scores_path = scores_path or DEFAULT_OUTPUT_CSV
+    effective_scores_path = scores_path
 
     if score_only:
         if not os.path.exists(effective_scores_path):
@@ -416,7 +415,7 @@ if __name__ == "__main__":
         default=None,
         dest="scores_path",
         help=(
-            "Write scores to this CSV instead of tier1_results.csv. "
+            "Write scores to this CSV. "
             "Use a per-mode path for parallel runs. "
             "Example: --output outputs/eval_vec.csv"
         ),

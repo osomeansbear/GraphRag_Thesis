@@ -50,7 +50,7 @@ Verify in Neo4j Browser (`http://localhost:7474`):
 MATCH (n) RETURN labels(n), count(n);
 ```
 
-Expected: Document(1), Chapter(6), Article(22), Clause(117), Entity(474).
+Expected: Document(1), Chapter(5), Article(22), Clause(117), Entity(474).
 
 ---
 
@@ -62,7 +62,7 @@ Run the pipeline in order. Each step is idempotent.
 # Layer 1: structural hierarchy (Document → Chapter → Article → Clause)
 python -m src.indexers.layer1_structure
 
-# Layer 2: LLM cross-reference edges
+# Layer 2: regex cross-reference edges
 python -m src.indexers.layer2_crossref
 
 # Between L2 and L3: clean markdown artifacts, backfill clause numbers

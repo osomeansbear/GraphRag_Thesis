@@ -11,7 +11,7 @@ Covers:
 
 Usage:
     python scripts/analyse_results.py
-    python scripts/analyse_results.py --results outputs/ragas_vec.csv outputs/ragas_graph_07.csv outputs/ragas_iter.csv
+    python scripts/analyse_results.py --results outputs/eval_vec.csv outputs/eval_graph.csv outputs/eval_iter.csv
     python scripts/analyse_results.py --output outputs/analysis.md
 """
 
